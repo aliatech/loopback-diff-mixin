@@ -108,6 +108,12 @@ describe('Mixin features', () => {
     ]);
   });
 
+  it('Should trigger hook with updateAttribute', async () => {
+    await john.updateAttribute('name', 'Jonathan');
+    const hooks = _.map(john.getDiffLastExecutedHooks(), 'key');
+    hooks.should.be.Array().which.eql(['before:*:name']);
+  });
+
   it('Should skip all hooks specifying skipDiff=true (create)', async () => {
     jane = await Person.create({
       email: 'jane@doe.org',
