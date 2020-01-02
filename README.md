@@ -10,9 +10,11 @@ Loopback diff mixin allows to detect and hook for specific changes in persist mo
 
 * //TODO
 
-**IMPORTANT:** This Loopback mixin has only be tested with Loopback 3 and MongoDB connector.
+**IMPORTANT:**
+This Loopback mixin has only be tested with Loopback 3 and MongoDB connector.
+Requires Node ≥ 8
 
-This project is under development.
+**This project is under development.**
 
 ## How to install
 

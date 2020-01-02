@@ -38,8 +38,7 @@
     "deep-object-diff": "^1.1.0",
     "dot-object": "^2.1.2",
     "lodash": "^4.17.15",
-    "lodash-clean": "^2.2.1",
-    "polygoat": "^1.1.4"
+    "lodash-clean": "^2.2.1"
   },
   "devDependencies": {
     "@aliatech/eslint-config-aliatech": "^0.1.2",
