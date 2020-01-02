@@ -1,0 +1,26 @@
+{
+  "name": "Company",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "Diff": {
+      "config": "diffConfig"
+    }
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "address": {
+      "city": "string",
+      "street": "string",
+      "zipCode": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "methods": {}
+}

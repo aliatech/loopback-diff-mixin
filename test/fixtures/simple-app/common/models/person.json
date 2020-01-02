@@ -1,0 +1,46 @@
+{
+  "name": "Person",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+    "Diff": {
+      "hooks": {
+        "name": "beforeNameChanged",
+        "before:email": "beforeEmailChanged",
+        "before:address.zipCode": "beforeZipCodeChanged",
+        "before:deleted:address.city": "beforeCityDeleted",
+        "before:added:email": "beforeEmailAdded",
+        "before:updated:email": "beforeEmailUpdated",
+        "before:set:email": "beforeEmailAddedOrUpdated",
+        "before:deleted:email": "beforeEmailDeleted",
+        "after:email": "afterEmailChanged",
+        "after:added:email": "afterEmailAdded",
+        "after:updated:email": "afterEmailUpdated",
+        "after:set:email": "afterEmailAddedOrUpdated",
+        "after:deleted:email": "afterEmailDeleted"
+      }
+    }
+  },
+  "properties": {
+    "email": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "address": {
+      "city": "string",
+      "street": "string",
+      "zipCode": "string"
+    },
+    "birthDate": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "methods": {}
+}
