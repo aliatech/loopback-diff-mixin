@@ -1,0 +1,12 @@
+{
+  "db": {
+    "name": "db",
+    "database": "loopback-diff-mixin-test",
+    "connector": "mongodb",
+    "useUnifiedTopology": true,
+    "useNewUrlParser": true,
+    "useCreateIndex": true,
+    "prohibitHiddenPropertiesInQuery": false,
+    "maxDepthOfQuery": 20
+  }
+}
