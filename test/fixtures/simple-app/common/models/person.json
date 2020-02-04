@@ -18,6 +18,7 @@
         "before:deleted:email": "beforeEmailDeleted",
         "job.charge": "beforeJobChargeChanged",
         "jobCharge": "beforeJobChargeSyncChanged",
+        "after:jobCharge": "afterJobChargeSyncChanged",
         "after:email": "afterEmailChanged",
         "after:added:email": "afterEmailAdded",
         "after:updated:email": "afterEmailUpdated",

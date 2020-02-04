@@ -34,6 +34,12 @@ module.exports = (Person) => {
     });
   };
 
+  Person.prototype.afterJobChargeSyncChanged = async function (jobCharge, prop, helpers) {
+    helpers.extendAttributes({
+      _afterJobChargeSyncChanged: !this._afterJobChargeSyncChanged,
+    });
+  };
+
   Person.prototype.afterEmailChanged = async function (email, prop, helpers) {
     helpers.extendAttributes({
       _afterEmailChanged: true,
