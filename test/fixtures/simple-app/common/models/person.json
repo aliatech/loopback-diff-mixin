@@ -16,6 +16,8 @@
         "before:updated:email": "beforeEmailUpdated",
         "before:set:email": "beforeEmailAddedOrUpdated",
         "before:deleted:email": "beforeEmailDeleted",
+        "job.charge": "beforeJobChargeChanged",
+        "jobCharge": "beforeJobChargeSyncChanged",
         "after:email": "afterEmailChanged",
         "after:added:email": "afterEmailAdded",
         "after:updated:email": "afterEmailUpdated",
@@ -38,6 +40,14 @@
     },
     "birthDate": {
       "type": "date"
+    },
+    "job": {
+      "type": {
+        "charge": "string"
+      }
+    },
+    "jobCharge": {
+      "type": "string"
     }
   },
   "validations": [],

@@ -30,9 +30,13 @@ describe('Mixin features', () => {
     const hooks = _.map(john.getDiffLastExecutedHooks(), 'key');
     hooks.should.be.Array().which.eql(['before:*:name']);
     const [result] = _.map(john.getDiffLastExecutedHooks(), 'result');
-    result[0].should.eql('John');
-    result[1].should.eql('name');
-    result[2].should.be.instanceOf(Person);
+    const [value, prop, helpers, prevInst, ctx] = result;
+    value.should.eql('John');
+    prop.should.eql('name');
+    helpers.should.be.an.Object()
+      .and.have.properties('extendAttributes');
+    prevInst.should.be.instanceOf(Person);
+    ctx.should.be.an.Object();
     john.name.should.eql('JOHN');
     const dbJohn = await Person.findById(john.id);
     dbJohn.name.should.eql('JOHN');
@@ -67,15 +71,11 @@ describe('Mixin features', () => {
       'before:updated:email',
       'before:*:email',
       'before:set:email',
+      'before:*:job.charge',
       'after:updated:email',
       'after:*:email',
       'after:set:email',
     ]);
-    const [, , , result] = _.map(john.getDiffLastExecutedHooks(), 'result');
-    result[0].should.eql('john@doe.net');
-    result[1].should.eql('email');
-    result[2].should.be.instanceOf(Person);
-    result[2].email.should.eql('john@doe.org');
   });
 
   it('Should trigger hook specifying phase and/or changeSet on .updateAttributes', async () => {
@@ -105,6 +105,7 @@ describe('Mixin features', () => {
     hooks.should.be.Array().which.eql([
       'before:*:address.zipCode',
       'before:deleted:address.city',
+      'before:*:job.charge',
     ]);
   });
 
@@ -248,6 +249,39 @@ describe('Mixin features', () => {
       'after:*:address.**',
       'after:*:address.*',
     ]);
+  });
+
+  it('Should trigger hook for a change produced inside another hook', async () => {
+    const jobCharge = 'Software developer junior';
+    jane.job = {charge: jobCharge};
+    await jane.save();
+    const hooks = _.map(jane.getDiffLastExecutedHooks(), 'key');
+    hooks.should.be.Array().which.eql([
+      'before:*:job.charge',
+      'before:*:jobCharge',
+    ]);
+    const dbJane = await Person.findById(jane.id);
+    should.exist(dbJane.jobCharge);
+    dbJane.jobCharge.should.eql(jobCharge);
+    should.exist(dbJane._beforeJobChargeSyncChanged);
+    dbJane._beforeJobChargeSyncChanged.should.eql(true);
+  });
+
+  it('Should trigger hook for a change produced inside another hook (updateAttributes)', async () => {
+    const jobCharge = 'Software developer senior';
+    await jane.updateAttributes({
+      job: {charge: jobCharge},
+    });
+    const hooks = _.map(jane.getDiffLastExecutedHooks(), 'key');
+    hooks.should.be.Array().which.eql([
+      'before:*:job.charge',
+      'before:*:jobCharge',
+    ]);
+    const dbJane = await Person.findById(jane.id);
+    should.exist(dbJane.jobCharge);
+    dbJane.jobCharge.should.eql(jobCharge);
+    should.exist(dbJane._beforeJobChargeSyncChanged);
+    dbJane._beforeJobChargeSyncChanged.should.eql(false);
   });
 
 });
