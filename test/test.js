@@ -259,12 +259,15 @@ describe('Mixin features', () => {
     hooks.should.be.Array().which.eql([
       'before:*:job.charge',
       'before:*:jobCharge',
+      'after:*:jobCharge',
     ]);
     const dbJane = await Person.findById(jane.id);
     should.exist(dbJane.jobCharge);
     dbJane.jobCharge.should.eql(jobCharge);
     should.exist(dbJane._beforeJobChargeSyncChanged);
     dbJane._beforeJobChargeSyncChanged.should.eql(true);
+    should.exist(jane._afterJobChargeSyncChanged);
+    jane._afterJobChargeSyncChanged.should.eql(true);
   });
 
   it('Should trigger hook for a change produced inside another hook (updateAttributes)', async () => {
@@ -276,6 +279,7 @@ describe('Mixin features', () => {
     hooks.should.be.Array().which.eql([
       'before:*:job.charge',
       'before:*:jobCharge',
+      'after:*:jobCharge',
     ]);
     const dbJane = await Person.findById(jane.id);
     should.exist(dbJane.jobCharge);
