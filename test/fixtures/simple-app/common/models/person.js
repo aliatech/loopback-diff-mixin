@@ -2,42 +2,58 @@
 
 module.exports = (Person) => {
 
-  Person.prototype.beforeNameChanged = async function (name, prop, prevInst) {
-    this.name = name.toUpperCase();
+  Person.prototype.beforeNameChanged = async function (name, prop, helpers, prevInst, ctx) {
+    helpers.extendAttributes({
+      name: name.toUpperCase(),
+    });
     return [...arguments];
   };
 
-  Person.prototype.beforeEmailChanged = async function (email, prevInst) {
-    this._beforeEmailChanged = true;
+  Person.prototype.beforeEmailChanged = async function (email, prop, helpers) {
+    helpers.extendAttributes({
+      _beforeEmailChanged: true,
+    });
   };
 
-  Person.prototype.beforeEmailAdded = async function (email, prevInst) {
+  Person.prototype.beforeEmailAdded = async function (email) {
   };
 
-  Person.prototype.beforeEmailUpdated = async function (name, prop, prevInst) {
+  Person.prototype.beforeEmailUpdated = async function (email) {
   };
 
-  Person.prototype.beforeEmailAddedOrUpdated = async function (name, prop, prevInst) {
+  Person.prototype.beforeEmailAddedOrUpdated = async function (email) {
   };
 
-  Person.prototype.afterEmailChanged = async function (email, prevInst) {
-    this._afterEmailChanged = true;
+  Person.prototype.beforeJobChargeChanged = async function (jobCharge, prop, helpers) {
+    helpers.extendAttributes({jobCharge});
   };
 
-  Person.prototype.afterEmailAdded = async function (email, prevInst) {
+  Person.prototype.beforeJobChargeSyncChanged = async function (jobCharge, prop, helpers) {
+    helpers.extendAttributes({
+      _beforeJobChargeSyncChanged: !this._beforeJobChargeSyncChanged,
+    });
   };
 
-  Person.prototype.afterEmailUpdated = async function (name, prop, prevInst) {
+  Person.prototype.afterEmailChanged = async function (email, prop, helpers) {
+    helpers.extendAttributes({
+      _afterEmailChanged: true,
+    });
+  };
+
+  Person.prototype.afterEmailAdded = async function () {
+  };
+
+  Person.prototype.afterEmailUpdated = async function () {
     return [...arguments];
   };
 
-  Person.prototype.afterEmailAddedOrUpdated = async function (name, prop, prevInst) {
+  Person.prototype.afterEmailAddedOrUpdated = async function () {
   };
 
-  Person.prototype.beforeZipCodeChanged = async function (zipCode, prevInst) {
+  Person.prototype.beforeZipCodeChanged = async function (zipCode) {
   };
 
-  Person.prototype.beforeCityDeleted = async function (zipCode, prevInst) {
+  Person.prototype.beforeCityDeleted = async function (zipCode) {
   };
 
 };
