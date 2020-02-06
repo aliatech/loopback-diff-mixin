@@ -288,4 +288,12 @@ describe('Mixin features', () => {
     dbJane._beforeJobChargeSyncChanged.should.eql(false);
   });
 
+  it('Should not trigger any hook on static updateAll and to not produce errors', async () => {
+    const newEmail = 'jane2@doe.org';
+    await Person.updateAll({id: jane.getId()}, {email: newEmail});
+    const dbJane = await Person.findById(jane.getId());
+    should.exist(dbJane);
+    dbJane.email.should.eql(newEmail);
+  })
+
 });
