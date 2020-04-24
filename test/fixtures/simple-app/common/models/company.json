@@ -18,6 +18,15 @@
       "city": "string",
       "street": "string",
       "zipCode": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "sector": {
+      "type": "string"
+    },
+    "ratings": {
+      "type": "object"
     }
   },
   "validations": [],
