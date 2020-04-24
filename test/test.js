@@ -294,6 +294,59 @@ describe('Mixin features', () => {
     const dbJane = await Person.findById(jane.getId());
     should.exist(dbJane);
     dbJane.email.should.eql(newEmail);
-  })
+  });
+
+  it('Should trigger hook matching properties with a regex key', async () => {
+    const hookKey = 'before:*:/category|sector/';
+    // Category property should match the regexp
+    await alia.updateAttributes({
+      category: 'Software',
+    });
+    let hooks = _.map(alia.getDiffLastExecutedHooks(), 'key');
+    hooks.should.be.Array().which.eql([hookKey]);
+    // Sector property should match the regexp
+    await alia.updateAttributes({
+      sector: 'Technology',
+    });
+    hooks = _.map(alia.getDiffLastExecutedHooks(), 'key');
+    hooks.should.be.Array().which.eql([hookKey]);
+  });
+
+  it('Should trigger only once a hook matching multiple properties with a regex key', async () => {
+    const randomCompany = await Company.create({
+      category: 'randomness',
+      sector: 'arbitrariness',
+    });
+    const hooks = _.map(randomCompany.getDiffLastExecutedHooks(), 'key');
+    hooks.should.be.Array().which.eql([
+      'before:*:/category|sector/',
+    ]);
+  });
+
+  it('Should trigger hook matching a nested property with a regex key', async () => {
+    // Should trigger because loopbackJS ends with JS
+    await alia.updateAttributes({
+      ratings: {LoopbackJS: 10},
+    });
+    let hooks = _.map(alia.getDiffLastExecutedHooks(), 'key');
+    hooks.should.be.Array().which.eql([
+      'before:*:/ratings\\.(node|.*js)/i',
+    ]);
+    // Should not trigger
+    alia.ratings.PHP = 9;
+    alia.ratings.Java = 8;
+    await alia.save();
+    hooks = _.map(alia.getDiffLastExecutedHooks(), 'key');
+    hooks.should.be.Array().which.eql([]);
+  });
+
+  it('Should trigger a hook multiple times matching properties with a regex key and /m', async () => {
+    const hookKey = 'before:*:/ratings\\.(quality|commitment)/i';
+    alia.ratings.Quality = 10;
+    alia.ratings.Commitment = 10;
+    await alia.save();
+    const hooks = _.map(alia.getDiffLastExecutedHooks(), 'key');
+    hooks.should.be.Array().which.eql([hookKey, hookKey]);
+  });
 
 });

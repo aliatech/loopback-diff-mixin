@@ -1,6 +1,6 @@
 {
   "name": "@aliatech/loopback-diff-mixin",
-  "version": "0.10.2",
+  "version": "0.11.0",
   "description": "Loopback diff mixin allows to detect and hook for specific changes in persist models",
   "publishConfig": {
     "access": "public"
